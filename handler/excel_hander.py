@@ -32,7 +32,7 @@ class ExcelHandler:
             file_name = file_name + ".xlsx"
         
         '是否开启分页模式，默认精简模式'
-        if Pagination and (not filterd):
+        if Pagination and len(filterd):
             '分页模式'
             df_filterd = df_all[df_all[filterd]]
             # 写入多个表单，使用 ExcelWriter
