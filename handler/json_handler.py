@@ -1,0 +1,13 @@
+
+import json
+
+'''
+json处理器
+'''
+class JsonHandler:
+    def __init__(self):
+        pass
+
+    def get_json_data(self,file_path: str) -> dict:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return json.load(f)
