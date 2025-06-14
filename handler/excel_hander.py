@@ -32,9 +32,10 @@ class ExcelHandler:
             file_name = file_name + ".xlsx"
         
         '是否开启分页模式，默认精简模式'
-        if Pagination and len(filterd):
+        if Pagination and bool(filterd):
             '分页模式'
-            df_filterd = df_all[df_all[filterd]]
+            filterd.append('详情')
+            df_filterd = df_all[filterd]
             # 写入多个表单，使用 ExcelWriter
             with pd.ExcelWriter(file_name) as writer:
                 df_filterd.to_excel(writer, sheet_name='Sheet1', index=False)
