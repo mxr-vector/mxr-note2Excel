@@ -50,6 +50,7 @@ class MainWindow(QMainWindow):
     def load_data(self):
          if os.path.exists(DATA_PATH):
             return JSON_DATA.load_data(DATA_PATH)
+         return [],[]
     def save_data(self):
         JSON_DATA.save_data(DATA_PATH,self.fields,self.data)
     def initUI(self):
