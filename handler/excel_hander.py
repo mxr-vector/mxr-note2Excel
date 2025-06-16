@@ -1,5 +1,6 @@
 from turtle import title
 from numpy import void
+import openpyxl
 import pandas as pd
 '''
 excel处理器
@@ -55,4 +56,18 @@ class ExcelHandler:
         else:
             '精简模式'
             # 将 DataFrame 写入 Excel 文件，写入 'Sheet1' 表单
-            df_all.to_excel(file_name, sheet_name='Sheet1', index=False)
+            writer = pd.ExcelWriter(file_name, engine='openpyxl')
+            df_all.to_excel(writer, sheet_name='Sheet1', index=False)
+            worksheet = writer.sheets['Sheet1']
+            for column in worksheet.columns:
+                max_length = 0
+                column_name = column[0].column_letter # Get the column name
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = (max_length + 2)
+                worksheet.column_dimensions[column_name].width = adjusted_width
+            writer.save()
