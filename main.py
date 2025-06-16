@@ -13,5 +13,5 @@ if __name__ == "__main__":
     data = json_handler.get_json_data("assets/data.json")
     '写入excel文件'
     # excel_handler.write_excel("assets/data.xlsx",data)
-
+    
     excel_handler.write_excel("assets/data.xlsx",data,['姓名','手机号'],True)

@@ -34,12 +34,24 @@ class ExcelHandler:
         '是否开启分页模式，默认精简模式'
         if Pagination and bool(filterd):
             '分页模式'
-            filterd.append('详情')
-            df_filterd = df_all[filterd]
+            df_filterd = df_all[filterd].copy()
+            df_filterd.loc[:, '详情'] = df_filterd.index.map(lambda x: f'=HYPERLINK("#Sheet2!A{x+2}", "查看详情")')
             # 写入多个表单，使用 ExcelWriter
             with pd.ExcelWriter(file_name) as writer:
                 df_filterd.to_excel(writer, sheet_name='Sheet1', index=False)
                 df_all.to_excel(writer, sheet_name='Sheet2', index=False)
+
+                ws = writer.book['Sheet1']
+                from openpyxl.styles import Font
+                # 找到“详情”列的列号
+                for idx, cell in enumerate(ws[1]):
+                    if cell.value == '详情':
+                        detail_col = cell.column_letter
+                        break
+                # 从第二行开始遍历该列，设置样式
+                for row in range(2, ws.max_row + 1):
+                    cell = ws[f"{detail_col}{row}"]
+                    cell.font = Font(color='0000FF', underline='single')
         else:
             '精简模式'
             # 将 DataFrame 写入 Excel 文件，写入 'Sheet1' 表单
