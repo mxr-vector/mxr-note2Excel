@@ -59,7 +59,7 @@ class MainWindow(QMainWindow):
         field_box = QHBoxLayout()
         self.field_edit = QLineEdit(','.join(self.fields))
         self.field_edit.setPlaceholderText('用逗号分隔字段名，如：编号,姓名,地址...')
-        update_fields_btn = QPushButton('更新字段')
+        update_fields_btn = QPushButton('显示字段')
         update_fields_btn.clicked.connect(self.update_fields)
         field_box.addWidget(QLabel('字段:'))
         field_box.addWidget(self.field_edit)
@@ -116,7 +116,8 @@ class MainWindow(QMainWindow):
             return
         try:
             excel_handler = ExcelHandler()
-            data = {'field': self.fields, 'context': self.data}
+            fields,context = self.load_data()
+            data = {'field': fields, 'context': context}
             if mode == "simple":
                 # 精简导出，所有字段和数据导出到Sheet1
                 excel_handler.write_excel(file_name, data)
@@ -127,11 +128,6 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(self, '导出成功', f'分页数据已成功导出到 {file_name}')
         except Exception as e:
             QMessageBox.critical(self, '导出失败', f'导出Excel时发生错误: {e}')
-
-    def export_simple_excel(self):
-        pass
-    def export_paged_excel(self):
-        pass
 
     def add_row(self):
         dialog = DataDialog(self.fields, parent=self)
