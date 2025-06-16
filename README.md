@@ -18,7 +18,7 @@ uv sync
 ## 使用
 3. **运行程序**：
 ```bash
-  uv run main.py
+uv run main.py
 ```
 
    程序将提示您输入记事本文件路径和输出Excel文件名称。
